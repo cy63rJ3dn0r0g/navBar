@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slide show</title>
+</head>
+<style>
+    .frame {
+        width: 600px;
+        height: 600px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: rgb(58, 0, 58);
+        margin-top: -300px;
+        margin-left: -300px;
+        overflow: hidden;
+    }
+    .card {
+        width: 450px;
+        height: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: rgb(201, 128, 105);
+        margin-top: -250px;
+        margin-left: -225px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 10px rgba(97, 1, 97, .8);
+        transition:0.3s ease-in-out;
+    }
+    .card.active { 
+        width: 450px;
+        height: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: rgb(201, 128, 105);
+        margin-top: -250px;
+        margin-left: -225px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 10px rgba(97, 1, 97, .8);
+        transform: translateX(50%);
+        transition:0.3s ease-out;
+    }
+    .navbar {
+        width: 100%;
+        height: 75px;
+        background: rgb(85, 1, 85);
+    }
+    .text {
+        color: aliceblue;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 40px;
+        left: 100px;
+        top: 10px;
+        position: absolute;
+        cursor: alias;
+    }
+    .search-input {
+        height: 5px;
+        top: 25px;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        right: 30px;
+        font-size: 15px;
+        width: 0px;
+        border-radius: 50%;
+        text-align: center;
+        box-shadow: 0 0 5px 5px rgba(202, 3, 192, 0.8);
+        z-index: -1;
+        transition: all 0.7s ease-in-out;
+    }
+    .search-input.active {
+        height: 35px;
+        top: 10px;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        right: 25%;
+        width: 325px;
+        font-size: 15px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 5px 5px rgba(202, 3, 192, 0.8);
+        z-index: 1;
+    }
+    .search-input:hover {
+        height: 35px;
+        top: 10px;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        right: 25%;
+        width: 325px;
+        font-size: 15px;
+        border-radius: 10px;
+        text-align: center;
+        background: black;
+        color: goldenrod;
+        box-shadow: 0 0 5px 5px rgba(245, 208, 0, 0.8);
+    }
+    .searchBtn {
+        width: 20px;
+        height: 20px;
+        border: 1px solid transparent;
+        background: transparent;
+        position: absolute;
+        color: goldenrod;
+        top:20px;
+        right:25px;
+        cursor:pointer;
+    }
+    .searchbar .mag {
+        position: absolute;
+        height: 20px;
+        width: 18px;
+        border: 1px solid white;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+    .searchbar .mag:hover {
+        position: absolute;
+        height: 20px;
+        width: 18px;
+        border: 1px solid goldenrod;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+    .searchbar .mag:active {
+        transform: translateX(20%);
+    }
+    .searchbar .handle {
+        position: absolute;
+        right: -10px;
+        top: 13px;
+        transform: rotate(125deg);
+        height: 10px;
+        width: 0px;
+        border: 3px solid white;
+        cursor: pointer;
+    }
+    .searchbar .handle:hover {
+        border: 3px solid goldenrod;
+    }
+    .btn {
+        position: absolute;
+        top: 15px;
+        left: 0px;
+        cursor: pointer;
+        transition: all 1s ease-in-out;
+    }
+    .btn.active {
+        position: absolute;
+        top: 0px;
+        left: 20px;
+        transform: rotateY(360deg);
+        
+    }
+    .btnT {
+        height: 10px;
+        width: 50px;
+        background: white;
+        position: absolute;
+        top: -10px;
+        border-radius: 10px;
+    }
+    .btnM {
+        height: 10px;
+        width: 50px;
+        background: white;
+        position: absolute;
+        top: 10px;
+        border-radius: 10px;
+    }
+    .btnB {
+        height: 10px;
+        width: 50px;
+        background: white;
+        position: absolute;
+        top: 30px;
+        border-radius: 10px;
+    }
+    .sidebar {
+        height: 350px;
+        width: 2px;
+        background: rgb(58, 0, 58);
+        position: absolute;
+        top: 50px;
+        left: -1px;
+        border-radius: 5%;
+        margin-top: 60px;
+        font-size: 1px;
+        box-shadow: inset 0 0 5px 10px rgba(248, 183, 108, 0.4);
+        z-index: 1;
+        transition: all 0.4s  ease-in-out;
+    }
+    .sidebar.active {
+        transform: translateX(-125px);
+        transition:0.3s ease-in-out;
+        z-index: 1;
+        height: 400px;
+        width: 300px;
+        background: rgb(58, 0, 58);
+        position: absolute;
+        top: 0px;
+        left: -39%;;
+        margin-top: 60px;
+        color: goldenrod;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 45px;
+        border-radius: 5%;
+        border: 5px solid rgb(248, 183, 108);
+        box-shadow: inset 0 0 5px 10px rgba(248, 183, 108, 0.4);
+    }
+
+    .sidebar
+    .dashboard,
+    .profile,
+    .notifications,
+    .massages,
+    .settings {
+        text-align: center;
+        justify-content: space-evenly;
+        border: 2px solid transparent;
+        margin-top: 5px;
+    }
+    .dashboard,
+    .profile,
+    .notifications,
+    .massages,
+    .settings {
+        height: 17.2%;
+    }
+    .dashboard:hover,
+    .profile:hover,
+    .notifications:hover,
+    .massages:hover,
+    .settings:hover {
+        border: 2px solid rgb(167, 0, 167);
+        background: rgb(49, 0, 54);
+        box-shadow: inset 0 0 5px 5px rgba(245, 208, 0, 0.8);
+    }
+    .list {
+        text-align: left;
+        left: 25px;
+        position: absolute;
+        top: 80px;
+    }
+    
+    .main {
+        margin-top: 20px;
+        font-size: 25px;
+        border-bottom: 2px solid ;
+    } 
+    .stupidLine {
+        position: absolute;
+        left: 24px;
+        margin-top: 30px;
+        height: 25px;
+        width: 5px;
+        background: rgb(51, 46, 2);
+    }
+    .lineStupid {
+        position: absolute;
+        left: 24px;
+        margin-top: -15px;
+        height: 20px;
+        width: 5px;
+        background: rgb(70, 68, 68);
+    }
+    .time {
+        margin-left: 60px;
+        font-weight: 500;
+        font-family: Trebuchet MS;
+    }
+    .circle {
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        border: 3px solid blueviolet;
+        position: absolute;
+        left: 15px;
+        margin-top: 5px;
+    }
+</style>
+<body>
+    <div class="frame">
+        <div class="card">
+            <div class="center">
+                <div class="navbar">
+                    <div class="sidebar" id="sidebar">
+                        <div class="dashboard">Dashboard
+                            <div class="rectangle"></div></div>
+                        <div class="profile">Profile
+                            <div class="rectangle"></div></div>
+                        <div class="notifications">Notifications
+                            <div class="rectangle"></div></div>
+                        <div class="massages">Massages
+                            <div class="rectangle"></div></div>
+                        <div class="settings">Settings
+                            <div class="rectangle"></div></div>
+                    </div>
+                    <div class="text">Notifications</div>
+                    <div class="searchbar">
+                        <div class="searchBtn" onClick="search()">
+                        <div class="mag">
+                            <div class="handle"></div>
+                        </div></div>
+                        <input type="text" class="search-input" placeholder="search...">
+                        </div>
+                    </div>
+                </div>
+                <div class="btn" onclick="slide()">
+                                <span class="btnT"></span>
+                                <span class="btnM"></span>
+                                <span class="btnB"></span>
+                </div>
+                <div class="list">
+                    <div class="main">
+                        <div class="stupidLine"></div>
+                        <div class="circle"></div>
+                            <span class="time">now</span>
+                            <p><b>Satan</b> posted a photo on your wall.</p>
+                    </div>
+                    <div class="main">
+                        <div class="stupidLine"></div>
+                        <div class="lineStupid"></div>
+                        <div class="circle"></div>
+                            <span class="time">4:20pm</span>
+                            <p><b>Buddha</b> commented your last post</p>
+                    </div>
+                    <div class="main">
+                        <div class="stupidLine"></div>
+                        <div class="lineStupid"></div>
+                        <div class="circle"></div>
+                            <span class="time">Yesterday</span>
+                            <p><b>Deadpool</b> added you as a friend.</p>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+
+const btn = document.querySelector(".card");
+const sidebar = document.querySelector(".sidebar");
+const searchBtn = document.querySelector(".search-input");
+
+
+function slide() {
+    sidebar.classList.toggle("active");
+    btn.classList.toggle("active");
+};
+function search() {
+    searchBtn.classList.toggle("active");
+};
+</script>
+</html>
